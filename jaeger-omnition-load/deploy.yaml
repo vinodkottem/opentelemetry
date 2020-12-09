@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: jaeger-omnition-load
+  name: jaeger-omnition-load
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jaeger-omnition-load
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: jaeger-omnition-load
+    spec:
+      containers:
+      - image: omnition/synthetic-load-generator:1.0.25
+        name: synthetic-load-generator
+        env:
+        - name: JAEGER_COLLECTOR_URL
+          value: http://otel-collector:14268
+        resources: {}
+status: {}

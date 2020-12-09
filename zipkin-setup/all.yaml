@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: zipkin-allinone
+  name: zipkin-allinone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zipkin-allinone
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: zipkin-allinone
+    spec:
+      containers:
+      - image: openzipkin/zipkin:latest
+        name: zipkin
+        ports:
+        - containerPort: 9411
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zipkin-allinone
+spec:
+  type: NodePort
+  ports:
+  - port: 9411
+    protocol: TCP
+    targetPort: 9411
+    nodePort: 31001
+  selector:
+    app: zipkin-allinone
+status:
+  loadBalancer: {}
